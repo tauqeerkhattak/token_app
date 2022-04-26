@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:token_app/screens/login.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:token_app/screens/splash.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const TokenApp());
 }
 
@@ -10,9 +13,9 @@ class TokenApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
       title: 'Token App',
-      home: Login(),
+      home: Splash(),
     );
   }
 }
