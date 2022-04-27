@@ -10,13 +10,12 @@ class SplashController extends GetxController {
   final GetStorage _box = GetStorage();
   @override
   void onInit() {
-    Future.delayed(Duration(milliseconds: 1000),() {
+    Future.delayed(Duration(milliseconds: 1000), () {
       if (_box.hasData('user')) {
         String user = _box.read('user');
         UserData userData = UserData.fromMap(jsonDecode(user));
-        Get.offAll(() => Dashboard(userData: userData));
-      }
-      else {
+        Get.offAll(() => Dashboard());
+      } else {
         Get.offAll(() => Login());
       }
     });

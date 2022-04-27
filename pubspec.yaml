@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.4
   get_storage: ^2.0.3
   loading_overlay: ^0.3.0
+  printing: ^5.8.0
 
 dev_dependencies:
   flutter_test:

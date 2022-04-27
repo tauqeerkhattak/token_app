@@ -8,17 +8,21 @@ import 'package:token_app/utils/services.dart';
 class LoginController extends GetxController {
   Rx<bool> loading = false.obs;
   final key = GlobalKey<FormState>();
-  TextEditingController email = TextEditingController(text: Constants.dummyEmail);
-  TextEditingController password = TextEditingController(text: Constants.dummyPassword);
-  TextEditingController baseUrl = TextEditingController(text: Constants.baseUrl);
+  TextEditingController email =
+      TextEditingController(text: Constants.dummyEmail);
+  TextEditingController password =
+      TextEditingController(text: Constants.dummyPassword);
+  TextEditingController baseUrl =
+      TextEditingController(text: Constants.baseUrl);
 
-  void login () async {
+  void login() async {
     if (key.currentState!.validate()) {
       loading.value = true;
-      UserData? data = await Services.login(email: email.text, password: password.text);
+      UserData? data =
+          await Services.login(email: email.text, password: password.text);
       if (data != null) {
         loading.value = false;
-        Get.offAll(() => Dashboard(userData: data));
+        Get.offAll(() => Dashboard());
       }
     }
   }

@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:token_app/controllers/dashboard_controller.dart';
-import 'package:token_app/models/user_data.dart';
 import 'package:token_app/utils/constants.dart';
 import 'package:token_app/widgets/custom_button.dart';
 
 import '../models/category_data.dart';
 
 class Dashboard extends StatelessWidget {
-  final UserData userData;
   final controller = Get.put(DashboardController());
   Dashboard({
     Key? key,
-    required this.userData,
   }) : super(key: key);
 
   @override
@@ -28,14 +25,22 @@ class Dashboard extends StatelessWidget {
         ),
         backgroundColor: Constants.primaryColor,
         actions: [
-         Center(
-           child: Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: InkWell(
-               onTap: (){},
-                 child: Text('Logout',style: TextStyle(fontSize: 17),)),
-           ),
-         ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: () {
+                  controller.logout();
+                },
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       body: Obx(
@@ -51,67 +56,68 @@ class Dashboard extends StatelessWidget {
             ),
           ),
           child: Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
-          //  crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ...List.generate(
-              //   controller.length.value,
-              //   (index) {
-              //     Datum category = controller.data.value!.data![index];
-              //     return CustomButton(
-              //       label: category.categoryType!,
-              //       onTap: () {},
-              //     );
-              //   },
-              // ),
-
-        Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Please select the cateory',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-            ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Please select the category',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
               ...List.generate(
                 controller.length.value,
                 (index) {
                   Datum category = controller.data.value!.data![index];
                   return CustomButton(
-
                     label: category.categoryType!,
+                    buttonColor: Constants.primaryTextColor,
                     onTap: () {
-
+                      controller.category.value = category;
+                      controller.getToken(category.id.toString());
                     },
                   );
                 },
               ),
-              SizedBox(height: 20,),
-
-              Text('Token Number',textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
-
-              SizedBox(height: 20,),
-              
-              Text('__',textAlign: TextAlign.center, style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
-
-Spacer(),
-Align(
-  alignment: Alignment.bottomLeft,
-  child:   Container(
-    margin:const EdgeInsets.all(10),
-    child: ElevatedButton(onPressed: (){}, child:const Text('Generate',style: TextStyle(fontWeight: FontWeight.bold,),),
-      style: ElevatedButton.styleFrom(
-        primary: Colors.orange,
-        minimumSize: const Size(100, 50),
-        maximumSize: const Size(100, 50),
-      ),
-    ),
-  ),
-),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Token Number',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                controller.tokenNumber.value,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: CustomButton(
+                  label: 'Generate'.toString(),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  buttonColor: Constants.primaryColor,
+                  onTap: () {
+                    controller.generateToken(
+                      controller.category.value.id.toString(),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
       ),
-
-
-
     );
   }
 }

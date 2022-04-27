@@ -79,7 +79,8 @@ class Login extends StatelessWidget {
                   },
                 ),
                 CustomButton(
-
+                  buttonColor: Constants.primaryTextColor,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   label: 'Login',
                   onTap: () => controller.login(),
                 ),
