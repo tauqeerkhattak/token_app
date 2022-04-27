@@ -110,6 +110,7 @@ class Dashboard extends StatelessWidget {
                   onTap: () {
                     controller.generateToken(
                       controller.category.value.id.toString(),
+                      controller.category.value.categoryType!,
                     );
                   },
                 ),
