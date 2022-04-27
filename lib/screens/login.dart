@@ -79,6 +79,7 @@ class Login extends StatelessWidget {
                   },
                 ),
                 CustomButton(
+
                   label: 'Login',
                   onTap: () => controller.login(),
                 ),

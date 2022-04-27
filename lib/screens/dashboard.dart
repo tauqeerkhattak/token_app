@@ -21,12 +21,22 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Dashboard',
+          'Generate new token',
           style: TextStyle(
             color: Constants.primaryTextColor,
           ),
         ),
         backgroundColor: Constants.primaryColor,
+        actions: [
+         Center(
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: InkWell(
+               onTap: (){},
+                 child: Text('Logout',style: TextStyle(fontSize: 17),)),
+           ),
+         ),
+        ],
       ),
       body: Obx(
         () => LoadingOverlay(
@@ -41,23 +51,67 @@ class Dashboard extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+//            mainAxisAlignment: MainAxisAlignment.center,
+          //  crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // ...List.generate(
+              //   controller.length.value,
+              //   (index) {
+              //     Datum category = controller.data.value!.data![index];
+              //     return CustomButton(
+              //       label: category.categoryType!,
+              //       onTap: () {},
+              //     );
+              //   },
+              // ),
+
+        Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Please select the cateory',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            ),
               ...List.generate(
                 controller.length.value,
                 (index) {
                   Datum category = controller.data.value!.data![index];
                   return CustomButton(
+
                     label: category.categoryType!,
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   );
                 },
               ),
+              SizedBox(height: 20,),
+
+              Text('Token Number',textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
+
+              SizedBox(height: 20,),
+              
+              Text('__',textAlign: TextAlign.center, style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,),),
+
+Spacer(),
+Align(
+  alignment: Alignment.bottomLeft,
+  child:   Container(
+    margin:const EdgeInsets.all(10),
+    child: ElevatedButton(onPressed: (){}, child:const Text('Generate',style: TextStyle(fontWeight: FontWeight.bold,),),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.orange,
+        minimumSize: const Size(100, 50),
+        maximumSize: const Size(100, 50),
+      ),
+    ),
+  ),
+),
             ],
           ),
         ),
       ),
+
+
+
     );
   }
 }

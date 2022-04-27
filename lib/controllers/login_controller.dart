@@ -18,7 +18,7 @@ class LoginController extends GetxController {
       UserData? data = await Services.login(email: email.text, password: password.text);
       if (data != null) {
         loading.value = false;
-        Get.to(() => Dashboard(userData: data));
+        Get.offAll(() => Dashboard(userData: data));
       }
     }
   }
