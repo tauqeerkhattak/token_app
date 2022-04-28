@@ -21,6 +21,7 @@ class Services {
       },
       url: 'login',
     );
+    print(response);
     if (response != 'null') {
       _box.write('user', response);
       UserData user = UserData.fromMap(jsonDecode(response));

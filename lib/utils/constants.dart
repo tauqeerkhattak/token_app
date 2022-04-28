@@ -6,6 +6,6 @@ class Constants {
 
   static String baseUrl = 'http://www.eusopht.com/token_management/public/api/';
 
-  static String dummyEmail = 'tokengenerator1@gmail.com';
+  static String dummyEmail = 'karachigenerator@gmail.com';
   static String dummyPassword = '123456';
 }

@@ -67,17 +67,17 @@ class Login extends StatelessWidget {
                     return null;
                   },
                 ),
-                CustomTextField(
-                  label: 'Base Url',
-                  controller: controller.baseUrl,
-                  prefixIcon: Icons.network_wifi,
-                  validator: (String? url) {
-                    if (url!.isEmpty) {
-                      return 'Enter a url';
-                    }
-                    return null;
-                  },
-                ),
+                // CustomTextField(
+                //   label: 'Base Url',
+                //   controller: controller.baseUrl,
+                //   prefixIcon: Icons.network_wifi,
+                //   validator: (String? url) {
+                //     if (url!.isEmpty) {
+                //       return 'Enter a url';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 CustomButton(
                   buttonColor: Constants.primaryTextColor,
                   width: MediaQuery.of(context).size.width * 0.6,

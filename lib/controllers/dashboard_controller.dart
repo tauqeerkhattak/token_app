@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import 'package:token_app/models/category_data.dart';
 import 'package:token_app/screens/dashboard.dart';
 import 'package:token_app/screens/login.dart';
 import 'package:token_app/utils/services.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class DashboardController extends GetxController {
   Rx<bool> loading = false.obs;
@@ -40,16 +39,20 @@ class DashboardController extends GetxController {
     });
   }
 
-  void generateToken(String categoryId,String categoryName) async {
+  void generateToken(String categoryId, String categoryName) async {
     loading.value = true;
     await Services.generateToken(
-        categoryId: categoryId, tokenNumber: tokenNumber.value).then((value) {
-          print(categoryName, tokenNumber.value,);
+            categoryId: categoryId, tokenNumber: tokenNumber.value)
+        .then((value) {
+      print(
+        categoryName,
+        tokenNumber.value,
+      );
     });
     loading.value = false;
   }
 
-  void print(String categoryName,String tokenNumber) async {
+  void print(String categoryName, String tokenNumber) async {
     final doc = pw.Document();
     final image = await imageFromAssetBundle('assets/images/logo.png');
     DateTime now = DateTime.now();
@@ -93,7 +96,10 @@ class DashboardController extends GetxController {
                   ),
                 ),
                 pw.Container(
-                  margin: const pw.EdgeInsets.only(left: 10,right: 10,),
+                  margin: const pw.EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
                   child: pw.Divider(),
                 ),
                 pw.Expanded(
@@ -136,7 +142,10 @@ class DashboardController extends GetxController {
                   ),
                 ),
                 pw.Container(
-                  margin: const pw.EdgeInsets.only(left: 10,right: 10,),
+                  margin: const pw.EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
                   child: pw.Divider(),
                 ),
                 pw.Expanded(
@@ -160,6 +169,8 @@ class DashboardController extends GetxController {
     );
     await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
       return doc.save();
+    }).then((value) {
+      Get.offAll(() => Dashboard());
     });
   }
 }

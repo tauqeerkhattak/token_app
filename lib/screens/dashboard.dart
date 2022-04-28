@@ -112,6 +112,25 @@ class Dashboard extends StatelessWidget {
                       controller.category.value.id.toString(),
                       controller.category.value.categoryType!,
                     );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (BuildContext context) {
+                    //       return const PrintOrders(
+                    //         customerName: 'Mohsin',
+                    //         deliveryTime: '23:25',
+                    //         instruction: 'Hi hello',
+                    //         items: [
+                    //           'Hello',
+                    //           'Hi',
+                    //           'Bye',
+                    //         ],
+                    //         orderNumber: '3',
+                    //         orderType: 'Hello',
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                   },
                 ),
               ),
