@@ -105,8 +105,14 @@ class DashboardController extends GetxController {
     } else {
       bluetooth.isConnected.then((isConnected) {
         if (!isConnected!) {
-          bluetooth.connect(device.value!).then((value) {
-            print();
+          bluetooth.connect(device.value!).then((value) async {
+            var data = await Services.generateToken(
+              categoryId: category.value!.id.toString(),
+              tokenNumber: tokenNumber.value,
+            );
+            if (data['status'] == 'success') {
+              print();
+            }
           }).catchError((error) {
             Get.rawSnackbar(message: 'Error: $error');
           });
