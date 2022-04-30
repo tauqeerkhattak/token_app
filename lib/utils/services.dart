@@ -24,6 +24,8 @@ class Services {
     print(response);
     if (response != 'null') {
       _box.write('user', response);
+      final data = jsonDecode(response);
+      data.keys;
       UserData user = UserData.fromMap(jsonDecode(response));
       return user;
     } else {

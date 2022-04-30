@@ -82,6 +82,16 @@ class Login extends StatelessWidget {
                   buttonColor: Constants.primaryTextColor,
                   width: MediaQuery.of(context).size.width * 0.6,
                   label: 'Login',
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (BuildContext context) {
+                  //         return const Print();
+                  //       },
+                  //     ),
+                  //   );
+                  // },
                   onTap: () => controller.login(),
                 ),
               ],

@@ -108,26 +108,21 @@ class Dashboard extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.3,
                   buttonColor: Constants.primaryColor,
                   onTap: () {
-                    controller.generateToken(
-                      controller.category.value.id.toString(),
-                      controller.category.value.categoryType!,
-                    );
+                    if (controller.category.value != null) {
+                      controller.generateToken(
+                        controller.category.value!.id.toString(),
+                        controller.category.value!.categoryType!,
+                      );
+                    } else {
+                      Get.rawSnackbar(
+                        message: 'Please select a category first!',
+                      );
+                    }
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
                     //     builder: (BuildContext context) {
-                    //       return const PrintOrders(
-                    //         customerName: 'Mohsin',
-                    //         deliveryTime: '23:25',
-                    //         instruction: 'Hi hello',
-                    //         items: [
-                    //           'Hello',
-                    //           'Hi',
-                    //           'Bye',
-                    //         ],
-                    //         orderNumber: '3',
-                    //         orderType: 'Hello',
-                    //       );
+                    //       return const Print();
                     //     },
                     //   ),
                     // );

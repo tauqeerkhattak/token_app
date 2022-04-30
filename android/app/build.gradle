@@ -42,11 +42,27 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Fattani computers\\Desktop\\keystores\\tauqeer-keystore.jks')
+            storePassword 'upload'
+            keyAlias 'upload'
+            keyPassword 'upload'
+        }
+    }
+
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def date = new Date();
+                    def formattedDate = date.format('-MMM-dd--HH-mm')
+                    output.outputFileName = "Token-App-RELEASE" + formattedDate + ".apk"
+
+                }
+            }
         }
     }
 }
