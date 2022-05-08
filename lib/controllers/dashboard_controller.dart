@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:token_app/models/category_data.dart';
+import 'package:token_app/screens/dashboard.dart';
 import 'package:token_app/screens/login.dart';
 import 'package:token_app/utils/constants.dart';
 import 'package:token_app/utils/services.dart';
@@ -20,37 +21,8 @@ class DashboardController extends GetxController {
   Rx<CategoryData?> data = CategoryData().obs;
 
   //Printing
-  BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
-
-  Rx<List<BluetoothDevice>> devices = Rx<List<BluetoothDevice>>([]);
-  Rxn<BluetoothDevice> device = Rxn<BluetoothDevice>();
-  Rx<bool> connected = false.obs;
+  final BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
   String? pathImage;
-
-  Future<void> initPlatformState() async {
-    List<BluetoothDevice> temp = [];
-
-    try {
-      temp = await bluetooth.getBondedDevices();
-    } on PlatformException {
-      log('Error while getting bluetooth devices');
-    }
-
-    bluetooth.onStateChanged().listen((state) {
-      switch (state) {
-        case BlueThermalPrinter.CONNECTED:
-          connected.value = true;
-          break;
-        case BlueThermalPrinter.DISCONNECTED:
-          connected.value = false;
-          break;
-        default:
-          log(state.toString());
-          break;
-      }
-    });
-    devices.value = temp;
-  }
 
   @override
   void onInit() async {
@@ -58,15 +30,8 @@ class DashboardController extends GetxController {
     data.value = await Services.getCategories();
     length.value = data.value!.data!.length;
     loading.value = false;
-    await initPlatformState();
     await initSaveToPath();
     super.onInit();
-  }
-
-  @override
-  void dispose() {
-    bluetooth.disconnect();
-    super.dispose();
   }
 
   void getToken(String categoryId) async {
@@ -90,96 +55,14 @@ class DashboardController extends GetxController {
 
   void generateToken(String categoryId, String categoryName) async {
     loading.value = true;
-    if (!connected.value) {
-      showDialog();
-    } else {
-      log('Here');
-      _connect();
+    var data = await Services.generateToken(
+      categoryId: category.value!.id.toString(),
+      tokenNumber: tokenNumber.value,
+    );
+    if (data['status'] == 'success') {
+      await print();
     }
     loading.value = false;
-  }
-
-  void _connect() {
-    if (device.value == null) {
-      showToast('No device selected.');
-    } else {
-      bluetooth.isConnected.then((isConnected) {
-        if (!isConnected!) {
-          bluetooth.connect(device.value!).then((value) async {
-            var data = await Services.generateToken(
-              categoryId: category.value!.id.toString(),
-              tokenNumber: tokenNumber.value,
-            );
-            if (data['status'] == 'success') {
-              print();
-            }
-          }).catchError((error) {
-            Get.rawSnackbar(message: 'Error: $error');
-          });
-        }
-      });
-    }
-  }
-
-  void showDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Connect to Printer'),
-        content: SizedBox(
-          height: 150,
-          width: double.maxFinite,
-          child: Expanded(
-            flex: 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Select a bluetooth device: '),
-                Obx(
-                  () => DropdownButton<BluetoothDevice>(
-                    value: device.value,
-                    items: devices.value.map(
-                      (e) {
-                        return DropdownMenuItem<BluetoothDevice>(
-                          child: Text(e.name!),
-                          value: e,
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (BluetoothDevice? value) {
-                      device.value = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            child: const Text(
-              'Cancel',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-          TextButton(
-            child: Text(
-              'Connect',
-              style: TextStyle(
-                color: Constants.primaryColor,
-              ),
-            ),
-            onPressed: () {
-              _connect();
-            },
-          ),
-        ],
-      ),
-    );
   }
 
   void showToast(String title) {
@@ -192,7 +75,7 @@ class DashboardController extends GetxController {
     //read and write
     //image max 300px X 300px
     String filename = 'logo_aeg';
-    var bytes = await rootBundle.load('assets/images/logo.png');
+    var bytes = await rootBundle.load('assets/images/logo.jpg');
     String dir = (await getApplicationDocumentsDirectory()).path;
     writeToFile(bytes, '$dir/$filename');
     pathImage = '$dir/$filename';
@@ -204,7 +87,7 @@ class DashboardController extends GetxController {
         buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
-  void print() async {
+  Future<void> print() async {
     //SIZE
     // 0- normal size text
     // 1- only bold text
@@ -220,24 +103,22 @@ class DashboardController extends GetxController {
     bluetooth.isConnected.then((isConnected) async {
       if (isConnected!) {
         await bluetooth.printNewLine();
-        await bluetooth.printImage(pathImage!);
+        await bluetooth.printImage(pathImage!,);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom(date, 2, 1);
+        await bluetooth.printCustom(date, 1, 1);
+        await bluetooth.printCustom('_________________________________', 3, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom('_______________________', 1, 1);
+        await bluetooth.printCustom(category.value!.categoryType!, 1, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom(category.value!.categoryType!, 2, 1);
+        await bluetooth.printCustom('Token Number', 1, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom('Token Number', 2, 1);
+        await bluetooth.printCustom(tokenNumber.value, 4, 1);
+        await bluetooth.printCustom('_________________________________', 3, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom(tokenNumber.value, 3, 1);
+        await bluetooth.printCustom('If your token number passes, please get a new token.', 0, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom('_______________________', 1, 1);
-        await bluetooth.printNewLine();
-        await bluetooth.printCustom('Space for other text', 2, 1);
-        await bluetooth.printNewLine();
-        bluetooth.printNewLine();
-        bluetooth.paperCut();
+        await bluetooth.paperCut();
+        Get.offAll(() => Dashboard());
       }
     });
   }

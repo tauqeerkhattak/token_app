@@ -40,7 +40,9 @@ dependencies:
   loading_overlay: ^0.3.0
   printing: ^5.8.0
   intl: ^0.17.0
-  blue_thermal_printer: ^1.2.0
+#  bluetooth_thermal_printer: ^0.0.6
+  blue_thermal_printer:
+    git: https://github.com/tauqeerkhattak/blue_thermal_printer.git
 
 dev_dependencies:
   flutter_test:

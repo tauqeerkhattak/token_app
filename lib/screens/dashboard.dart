@@ -104,7 +104,7 @@ class Dashboard extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: CustomButton(
-                  label: 'Generate'.toString(),
+                  label: 'Generate',
                   width: MediaQuery.of(context).size.width * 0.3,
                   buttonColor: Constants.primaryColor,
                   onTap: () {

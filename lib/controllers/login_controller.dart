@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:token_app/models/user_data.dart';
+import 'package:token_app/screens/connect.dart';
 import 'package:token_app/screens/dashboard.dart';
 import 'package:token_app/utils/constants.dart';
 import 'package:token_app/utils/services.dart';
@@ -22,7 +23,7 @@ class LoginController extends GetxController {
           await Services.login(email: email.text, password: password.text);
       if (data != null) {
         loading.value = false;
-        Get.offAll(() => Dashboard());
+        Get.offAll(() => Connect());
       }
     }
   }
