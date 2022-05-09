@@ -1,3 +1,4 @@
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:token_app/models/user_data.dart';
@@ -9,6 +10,7 @@ import 'package:token_app/utils/services.dart';
 class LoginController extends GetxController {
   Rx<bool> loading = false.obs;
   final key = GlobalKey<FormState>();
+  BlueThermalPrinter printer = BlueThermalPrinter.instance;
   TextEditingController email =
       TextEditingController(text: Constants.dummyEmail);
   TextEditingController password =
@@ -23,7 +25,13 @@ class LoginController extends GetxController {
           await Services.login(email: email.text, password: password.text);
       if (data != null) {
         loading.value = false;
-        Get.offAll(() => Connect());
+        printer.isConnected.then((value) {
+          if (value!) {
+            Get.offAll(() => Dashboard());
+          } else {
+            Get.offAll(() => Connect());
+          }
+        });
       }
     }
   }
