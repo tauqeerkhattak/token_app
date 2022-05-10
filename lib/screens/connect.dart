@@ -52,6 +52,7 @@ class Connect extends StatelessWidget {
                   label: 'Connect',
                   onTap: () => controller.connect(),
                   buttonColor: Constants.primaryColor,
+                  textColor: Colors.white,
                 ),
               ],
             ),

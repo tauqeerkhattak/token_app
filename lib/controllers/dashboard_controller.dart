@@ -122,4 +122,8 @@ class DashboardController extends GetxController {
       }
     });
   }
+
+ void changeColor(){
+   
+ }
 }

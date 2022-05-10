@@ -12,13 +12,13 @@ class Dashboard extends StatelessWidget {
   Dashboard({
     Key? key,
   }) : super(key: key);
-
+int? val;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Generate new token',
+          'Get new token',
           style: TextStyle(
             color: Constants.primaryTextColor,
           ),
@@ -57,29 +57,40 @@ class Dashboard extends StatelessWidget {
           ),
           child: Column(
             children: [
+                   SizedBox(
+                height: 40,
+              ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Please select the category',
+                  'Please select a category',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+              ),
+              SizedBox(
+                height: 40,
               ),
               ...List.generate(
                 controller.length.value,
                 (index) {
+           
                   Datum category = controller.data.value!.data![index];
                   return CustomButton(
                     label: category.categoryType!,
-                    buttonColor: Constants.primaryTextColor,
+                    buttonColor:val==index? Constants.primaryColor : Constants.primaryTextColor,
+                    textColor: val==index ?Colors.white:Colors.black,
                     onTap: () {
+                      val=index;
+
                       controller.category.value = category;
                       controller.getToken(category.id.toString());
+                      
                     },
                   );
                 },
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               const Text(
                 'Token Number',
@@ -96,7 +107,7 @@ class Dashboard extends StatelessWidget {
                 controller.tokenNumber.value,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -105,6 +116,8 @@ class Dashboard extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: CustomButton(
                   label: 'Generate',
+                  textColor: Colors.white,
+                  
                   width: MediaQuery.of(context).size.width * 0.3,
                   buttonColor: Constants.primaryColor,
                   onTap: () {

@@ -29,7 +29,8 @@ class LoginController extends GetxController {
           if (value!) {
             Get.offAll(() => Dashboard());
           } else {
-            Get.offAll(() => Connect());
+          //  Get.offAll(() => Connect());
+            Get.offAll(() => Dashboard());
           }
         });
       }

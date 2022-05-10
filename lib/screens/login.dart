@@ -79,8 +79,9 @@ class Login extends StatelessWidget {
                 //   },
                 // ),
                 CustomButton(
-                  buttonColor: Constants.primaryTextColor,
+                  buttonColor: Constants.primaryColor,
                   width: MediaQuery.of(context).size.width * 0.6,
+                  textColor: Colors.white,
                   label: 'Login',
                   // onTap: () {
                   //   Navigator.push(

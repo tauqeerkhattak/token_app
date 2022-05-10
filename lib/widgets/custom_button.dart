@@ -5,13 +5,14 @@ class CustomButton extends StatelessWidget {
   final Function() onTap;
   final Color buttonColor;
   final double? width;
+  final Color textColor;
 
   const CustomButton({
     Key? key,
     required this.label,
     required this.onTap,
     required this.buttonColor,
-    this.width,
+    this.width, required this.textColor,
   }) : super(key: key);
 
   @override
@@ -29,9 +30,10 @@ class CustomButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           label.toUpperCase(),
-          style: const TextStyle(
+          style:  TextStyle(
             //   color: Constants.primaryTextColor,
-            color: Colors.black,
+          //  color: Colors.black,
+             color: textColor,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),

@@ -8,9 +8,9 @@ import 'package:token_app/screens/login.dart';
 class SplashController extends GetxController {
   final GetStorage _box = GetStorage();
   final BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
-  @override
+ @override
   void onInit() {
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 6000), () {
       if (_box.hasData('user')) {
         bluetooth.isConnected.then((value) {
           if (value!) {
