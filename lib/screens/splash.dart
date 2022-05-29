@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:token_app/controllers/splash_controller.dart';
-import 'package:token_app/utils/constants.dart';
 
 class Splash extends StatelessWidget {
   final controller = Get.put(SplashController());
@@ -13,20 +12,20 @@ class Splash extends StatelessWidget {
       body: Container(
         width: Get.width,
         
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Welcome.png',),fit: BoxFit.fill)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-           // AssetImage(),
-           
-            // CircularProgressIndicator(
-            //   valueColor: AlwaysStoppedAnimation(
-            //     Constants.primaryColor,
-            //   ),
-            // ),
-          ],
-        ),
+        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Welcome.png',),fit: BoxFit.fill)),
+        // child: Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //
+        //   children: [
+        //    // AssetImage(),
+        //
+        //     // CircularProgressIndicator(
+        //     //   valueColor: AlwaysStoppedAnimation(
+        //     //     Constants.primaryColor,
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
       ),
     );
   }

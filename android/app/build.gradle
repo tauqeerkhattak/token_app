@@ -48,7 +48,7 @@ android {
 //            storePassword 'Tauqeer123'
 //            keyAlias 'key0'
 //            keyPassword 'Tauqeer123'
-            storeFile file('C:\\Users\\Fattani computers\\Desktop\\keystores\\tauqeer-keystore.jks')
+            storeFile file('/home/tauqeer/Programs/StudioProjects/tauqeer-keystore.jks')
             storePassword 'upload'
             keyAlias 'upload'
             keyPassword 'upload'
@@ -61,7 +61,7 @@ android {
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    def date = new Date();
+                    def date = new Date()
                     def formattedDate = date.format('-MMM-dd--HH-mm')
                     output.outputFileName = "Token-App-RELEASE" + formattedDate + ".apk"
 

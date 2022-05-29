@@ -21,7 +21,6 @@ class Services {
       },
       url: 'login',
     );
-    print(response);
     if (response != 'null') {
       _box.write('user', response);
       final data = jsonDecode(response);
@@ -92,7 +91,6 @@ class Services {
       token: userData.token!,
       url: 'generate/token',
     );
-    print(response);
     var data = jsonDecode(response);
     if (data['status'] == 'success') {
       return data;

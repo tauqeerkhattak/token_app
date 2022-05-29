@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:token_app/models/category_data.dart';
 import 'package:token_app/screens/dashboard.dart';
 import 'package:token_app/screens/login.dart';
-import 'package:token_app/utils/constants.dart';
 import 'package:token_app/utils/services.dart';
 
 class DashboardController extends GetxController {
@@ -34,11 +32,12 @@ class DashboardController extends GetxController {
     super.onInit();
   }
 
-  void getToken(String categoryId) async {
+  Future <void> getToken(String categoryId) async {
     loading.value = true;
     String token = await Services.getTokenNumber(categoryId);
     if (token != 'null') {
       tokenNumber.value = token;
+      log('Token: $tokenNumber');
     }
     loading.value = false;
   }
@@ -53,13 +52,14 @@ class DashboardController extends GetxController {
     );
   }
 
-  void generateToken(String categoryId, String categoryName) async {
+  Future <void> generateToken(String categoryId, String categoryName) async {
     loading.value = true;
     var data = await Services.generateToken(
       categoryId: category.value!.id.toString(),
       tokenNumber: tokenNumber.value,
     );
     if (data['status'] == 'success') {
+      log('Success: $tokenNumber generated');
       await print();
     }
     loading.value = false;

@@ -57,7 +57,7 @@ int? val;
           ),
           child: Column(
             children: [
-                   SizedBox(
+                   const SizedBox(
                 height: 40,
               ),
               const Padding(
@@ -67,7 +67,7 @@ int? val;
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               ...List.generate(
@@ -79,69 +79,69 @@ int? val;
                     label: category.categoryType!,
                     buttonColor:val==index? Constants.primaryColor : Constants.primaryTextColor,
                     textColor: val==index ?Colors.white:Colors.black,
-                    onTap: () {
+                    onTap: () async {
                       val=index;
 
                       controller.category.value = category;
-                      controller.getToken(category.id.toString());
-                      
+                      await controller.getToken(category.id.toString());
+                      if (controller.category.value != null) {
+                        await controller.generateToken(
+                          controller.category.value!.id.toString(),
+                          controller.category.value!.categoryType!,
+                        );
+                      } else {
+                        Get.rawSnackbar(
+                          message: 'Please select a category first!',
+                        );
+                      }
                     },
                   );
                 },
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              const Text(
-                'Token Number',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                controller.tokenNumber.value,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CustomButton(
-                  label: 'Generate',
-                  textColor: Colors.white,
-                  
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  buttonColor: Constants.primaryColor,
-                  onTap: () {
-                    if (controller.category.value != null) {
-                      controller.generateToken(
-                        controller.category.value!.id.toString(),
-                        controller.category.value!.categoryType!,
-                      );
-                    } else {
-                      Get.rawSnackbar(
-                        message: 'Please select a category first!',
-                      );
-                    }
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (BuildContext context) {
-                    //       return const Print();
-                    //     },
-                    //   ),
-                    // );
-                  },
-                ),
-              ),
+              // const SizedBox(
+              //   height: 40,
+              // ),
+              // const Text(
+              //   'Token Number',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     fontSize: 22,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Text(
+              //   controller.tokenNumber.value,
+              //   textAlign: TextAlign.center,
+              //   style: const TextStyle(
+              //     fontSize: 35,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const Spacer(),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: CustomButton(
+              //     label: 'Generate',
+              //     textColor: Colors.white,
+              //
+              //     width: MediaQuery.of(context).size.width * 0.3,
+              //     buttonColor: Constants.primaryColor,
+              //     onTap: () {
+              //
+              //       // Navigator.push(
+              //       //   context,
+              //       //   MaterialPageRoute(
+              //       //     builder: (BuildContext context) {
+              //       //       return const Print();
+              //       //     },
+              //       //   ),
+              //       // );
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),
