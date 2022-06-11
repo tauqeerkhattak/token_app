@@ -36,8 +36,10 @@ class Services {
     String user = _box.read('user');
     UserData userData = UserData.fromMap(jsonDecode(user));
     log(userData.token!);
-    String response =
-        await Network.get(token: userData.token!, url: 'categories');
+    String response = await Network.get(
+      token: userData.token!,
+      url: 'categories/${userData.data!.cityId}',
+    );
     if (response != 'null') {
       CategoryData data = CategoryData.fromMap(jsonDecode(response));
       return data;
@@ -87,6 +89,7 @@ class Services {
         'category_id': categoryId,
         'token_number': tokenNumber,
         'city_id': userData.data!.cityId.toString(),
+        'user_id': userData.data!.id.toString(),
       },
       token: userData.token!,
       url: 'generate/token',

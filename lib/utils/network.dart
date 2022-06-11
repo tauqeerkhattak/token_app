@@ -12,6 +12,7 @@ class Network {
       );
       request.fields.addAll(payload);
       StreamedResponse response = await request.send();
+      log('Post Status: ${response.statusCode}');
       if (response.statusCode == 200) {
         String res = await response.stream.bytesToString();
         return res;

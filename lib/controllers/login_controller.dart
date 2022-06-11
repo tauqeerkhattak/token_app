@@ -1,6 +1,7 @@
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:token_app/models/category_data.dart';
 import 'package:token_app/models/user_data.dart';
 import 'package:token_app/screens/connect.dart';
 import 'package:token_app/screens/dashboard.dart';
@@ -25,12 +26,16 @@ class LoginController extends GetxController {
           await Services.login(email: email.text, password: password.text);
       if (data != null) {
         loading.value = false;
-        printer.isConnected.then((value) {
+        printer.isConnected.then((value) async {
           if (value!) {
-            Get.offAll(() => Dashboard());
+            CategoryData? data = await Services.getCategories();
+            Get.offAll(
+              () => Dashboard(
+                categoryData: data,
+              ),
+            );
           } else {
-           Get.offAll(() => Connect());
-            // Get.offAll(() => Dashboard());
+            Get.offAll(() => Connect());
           }
         });
       }

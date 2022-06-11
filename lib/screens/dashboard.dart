@@ -7,12 +7,26 @@ import 'package:token_app/widgets/custom_button.dart';
 
 import '../models/category_data.dart';
 
-class Dashboard extends StatelessWidget {
-  final controller = Get.put(DashboardController());
-  Dashboard({
+class Dashboard extends StatefulWidget {
+  final CategoryData? categoryData;
+
+  const Dashboard({
+    required this.categoryData,
     Key? key,
   }) : super(key: key);
-int? val;
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  final controller = Get.put(DashboardController());
+  int? val;
+
+  initState() {
+    controller.setLength(widget.categoryData!.data!.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,9 +71,6 @@ int? val;
           ),
           child: Column(
             children: [
-                   const SizedBox(
-                height: 40,
-              ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -67,81 +78,41 @@ int? val;
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              ...List.generate(
-                controller.length.value,
-                (index) {
-           
-                  Datum category = controller.data.value!.data![index];
-                  return CustomButton(
-                    label: category.categoryType!,
-                    buttonColor:val==index? Constants.primaryColor : Constants.primaryTextColor,
-                    textColor: val==index ?Colors.white:Colors.black,
-                    onTap: () async {
-                      val=index;
+              const Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...List.generate(
+                    controller.length.value,
+                    (index) {
+                      Datum category = widget.categoryData!.data![index];
+                      return CustomButton(
+                        label: category.categoryType!,
+                        buttonColor: val == index
+                            ? Constants.primaryColor
+                            : Constants.primaryTextColor,
+                        textColor: val == index ? Colors.white : Colors.black,
+                        textSize: 20,
+                        height: 56,
+                        showBorder: true,
+                        radius: 15,
+                        onTap: () async {
+                          val = index;
 
-                      controller.category.value = category;
-                      await controller.getToken(category.id.toString());
-                      if (controller.category.value != null) {
-                        await controller.generateToken(
-                          controller.category.value!.id.toString(),
-                          controller.category.value!.categoryType!,
-                        );
-                      } else {
-                        Get.rawSnackbar(
-                          message: 'Please select a category first!',
-                        );
-                      }
+                          controller.category.value = category;
+                          await controller.getToken(category.id.toString());
+                          print(category.toMap().toString());
+                          await controller.generateToken(
+                            controller.category.value!.id.toString(),
+                            controller.category.value!.categoryType!,
+                          );
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                ],
               ),
-              // const SizedBox(
-              //   height: 40,
-              // ),
-              // const Text(
-              //   'Token Number',
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     fontSize: 22,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // Text(
-              //   controller.tokenNumber.value,
-              //   textAlign: TextAlign.center,
-              //   style: const TextStyle(
-              //     fontSize: 35,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // const Spacer(),
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: CustomButton(
-              //     label: 'Generate',
-              //     textColor: Colors.white,
-              //
-              //     width: MediaQuery.of(context).size.width * 0.3,
-              //     buttonColor: Constants.primaryColor,
-              //     onTap: () {
-              //
-              //       // Navigator.push(
-              //       //   context,
-              //       //   MaterialPageRoute(
-              //       //     builder: (BuildContext context) {
-              //       //       return const Print();
-              //       //     },
-              //       //   ),
-              //       // );
-              //     },
-              //   ),
-              // ),
+              const Spacer(),
             ],
           ),
         ),

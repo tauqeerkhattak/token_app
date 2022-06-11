@@ -11,21 +11,14 @@ class Splash extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: Get.width,
-        
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/Welcome.png',),fit: BoxFit.fill)),
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //
-        //   children: [
-        //    // AssetImage(),
-        //
-        //     // CircularProgressIndicator(
-        //     //   valueColor: AlwaysStoppedAnimation(
-        //     //     Constants.primaryColor,
-        //     //   ),
-        //     // ),
-        //   ],
-        // ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/Welcome.png',
+            ),
+            fit: BoxFit.fill,
+          ),
+        ),
       ),
     );
   }

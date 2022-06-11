@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:token_app/models/category_data.dart';
@@ -16,7 +17,6 @@ class DashboardController extends GetxController {
   Rx<int> length = 0.obs;
   Rx<String> tokenNumber = '__'.obs;
   Rxn<Datum> category = Rxn<Datum>();
-  Rx<CategoryData?> data = CategoryData().obs;
 
   //Printing
   final BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
@@ -24,15 +24,15 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() async {
-    loading.value = true;
-    data.value = await Services.getCategories();
-    length.value = data.value!.data!.length;
-    loading.value = false;
     await initSaveToPath();
     super.onInit();
   }
 
-  Future <void> getToken(String categoryId) async {
+  void setLength(int len) {
+    length.value = len;
+  }
+
+  Future<void> getToken(String categoryId) async {
     loading.value = true;
     String token = await Services.getTokenNumber(categoryId);
     if (token != 'null') {
@@ -52,15 +52,22 @@ class DashboardController extends GetxController {
     );
   }
 
-  Future <void> generateToken(String categoryId, String categoryName) async {
+  Future<void> generateToken(String categoryId, String categoryName) async {
     loading.value = true;
     var data = await Services.generateToken(
       categoryId: category.value!.id.toString(),
       tokenNumber: tokenNumber.value,
     );
+    log(data.toString());
     if (data['status'] == 'success') {
       log('Success: $tokenNumber generated');
-      await print();
+      // await print();
+      CategoryData? data = await Services.getCategories();
+      Get.offAll(
+        () => Dashboard(
+          categoryData: data,
+        ),
+      );
     }
     loading.value = false;
   }
@@ -103,7 +110,9 @@ class DashboardController extends GetxController {
     bluetooth.isConnected.then((isConnected) async {
       if (isConnected!) {
         await bluetooth.printNewLine();
-        await bluetooth.printImage(pathImage!,);
+        await bluetooth.printImage(
+          pathImage!,
+        );
         await bluetooth.printNewLine();
         await bluetooth.printCustom(date, 1, 1);
         await bluetooth.printCustom('_________________________________', 3, 1);
@@ -115,15 +124,17 @@ class DashboardController extends GetxController {
         await bluetooth.printCustom(tokenNumber.value, 4, 1);
         await bluetooth.printCustom('_________________________________', 3, 1);
         await bluetooth.printNewLine();
-        await bluetooth.printCustom('If your token number passes, please get a new token.', 0, 1);
+        await bluetooth.printCustom(
+            'If your token number passes, please get a new token.', 0, 1);
         await bluetooth.printNewLine();
         await bluetooth.paperCut();
-        Get.offAll(() => Dashboard());
+        CategoryData? data = await Services.getCategories();
+        Get.offAll(
+          () => Dashboard(
+            categoryData: data,
+          ),
+        );
       }
     });
   }
-
- void changeColor(){
-   
- }
 }

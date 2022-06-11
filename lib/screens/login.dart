@@ -67,32 +67,11 @@ class Login extends StatelessWidget {
                     return null;
                   },
                 ),
-                // CustomTextField(
-                //   label: 'Base Url',
-                //   controller: controller.baseUrl,
-                //   prefixIcon: Icons.network_wifi,
-                //   validator: (String? url) {
-                //     if (url!.isEmpty) {
-                //       return 'Enter a url';
-                //     }
-                //     return null;
-                //   },
-                // ),
                 CustomButton(
                   buttonColor: Constants.primaryColor,
                   width: MediaQuery.of(context).size.width * 0.6,
                   textColor: Colors.white,
                   label: 'Login',
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (BuildContext context) {
-                  //         return const Print();
-                  //       },
-                  //     ),
-                  //   );
-                  // },
                   onTap: () => controller.login(),
                 ),
               ],
