@@ -61,13 +61,7 @@ class DashboardController extends GetxController {
     log(data.toString());
     if (data['status'] == 'success') {
       log('Success: $tokenNumber generated');
-      // await print();
-      CategoryData? data = await Services.getCategories();
-      Get.offAll(
-        () => Dashboard(
-          categoryData: data,
-        ),
-      );
+      await print();
     }
     loading.value = false;
   }
