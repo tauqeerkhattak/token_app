@@ -48,7 +48,7 @@ android {
 //            storePassword 'Tauqeer123'
 //            keyAlias 'key0'
 //            keyPassword 'Tauqeer123'
-            storeFile file('/home/tauqeer/Programs/StudioProjects/tauqeer-keystore.jks')
+            storeFile file('C:\\Users\\tauqe\\StudioProjects\\tauqeer-keystore.jks')
             storePassword 'upload'
             keyAlias 'upload'
             keyPassword 'upload'
