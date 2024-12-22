@@ -33,16 +33,20 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  get: ^4.6.1
-  http: ^0.13.4
-  get_storage: ^2.0.3
-  loading_overlay: ^0.3.0
-  printing: ^5.8.0
-  intl: ^0.17.0
+  cupertino_icons: ^1.0.8
+  get: ^4.6.6
+  http: ^1.2.2
+  get_storage: ^2.1.1
+  loading_overlay: ^0.4.2
+  printing: ^5.13.4
+  intl: ^0.20.1
 #  bluetooth_thermal_printer: ^0.0.6
   blue_thermal_printer:
     git: https://github.com/tauqeerkhattak/blue_thermal_printer.git
+
+dependency_overrides:
+  path_provider: ^2.1.5
+  file: ^7.0.1
 
 dev_dependencies:
   flutter_test:

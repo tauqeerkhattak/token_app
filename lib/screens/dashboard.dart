@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -23,7 +25,9 @@ class _DashboardState extends State<Dashboard> {
   final controller = Get.put(DashboardController());
   int? val;
 
+  @override
   initState() {
+    super.initState();
     controller.setLength(widget.categoryData!.data!.length);
   }
 
@@ -60,7 +64,6 @@ class _DashboardState extends State<Dashboard> {
       body: Obx(
         () => LoadingOverlay(
           isLoading: controller.loading.value,
-          opacity: 1.0,
           color: Constants.primaryTextColor,
           progressIndicator: Center(
             child: CircularProgressIndicator(
@@ -101,7 +104,7 @@ class _DashboardState extends State<Dashboard> {
 
                           controller.category.value = category;
                           await controller.getToken(category.id.toString());
-                          print(category.toMap().toString());
+                          log(category.toMap().toString());
                           await controller.generateToken(
                             controller.category.value!.id.toString(),
                             controller.category.value!.categoryType!,
